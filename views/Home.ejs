@@ -45,7 +45,7 @@
         .bloc {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             width: 300px;
             margin: 25px;
             padding: 0 20px;
@@ -80,22 +80,13 @@
         <a href="/inscription">Inscription</a>
         <a href="/connexion">Connexion</a>
     </header>
-    <h1>Liste d'Utilisateur</h1>
+    <h1>Liste des Salles</h1>
     <div id="main">
-        <% data.forEach((user) => { %>
+        <% data.forEach((salle) => { %>
             <div class="bloc">
                 <h2>
-                    <%= user.username %>
+                    <%= salle.roomname %>
                 </h2>
-                <div class="blocBouton">
-                    <a href="./modifier/<%= user.id  %>">
-                        <input type="button" value="Modifier" class="edit">
-                    </a>
-                    <form action="/supprimer/<%= user.id %>?_method=DELETE" method="post">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="submit" value="Supprimer" class="delete">
-                    </form>
-                </div>
             </div>
         <% }) %>
     </div>

@@ -38,10 +38,14 @@
 
     var User = require('./models/User');
 
+/* MODELE RESERVATION */
+
+    var Reservation = require('./models/Reservation');
+
 /* HOME */
 
     app.get('/', function(req, res){
-        User.find().then((data) => { console.log(data); res.render('Home', {data: data}); }).catch(err => console.error(err));
+        Reservation.find().then((data) => { console.log(data); res.render('Home', {data: data}); }).catch(err => console.error(err));
         
     });
 
@@ -55,8 +59,7 @@
         const Data = new User({
             username : req.body.username,
             email : req.body.email,
-            password : bcrypt.hashSync(req.body.password, 10),
-            admin : false
+            password : bcrypt.hashSync(req.body.password, 10)
         });
         Data.save().then(() => { console.log('Data saved successfuly'); res.redirect('/'); }).catch(err => console.error(err));
     });
@@ -89,13 +92,17 @@
     });
 
     app.put('/api/modifier/:id', function(req, res){
-        const Data = {
-            username : req.body.username,
-            email : req.body.email,
-            password : req.body.password,
-            admin : false
-        }
-        User.updateOne({'_id': req.params.id}, {$set: Data}).then(() => { console.log('Data updated successfuly'); res.redirect('/'); }).catch(err => console.error(err));
+            const Data = {
+                username : req.body.username,
+                email : req.body.email
+            }
+            User.updateOne({'_id': req.params.id}, {$set: Data}).then(() => { console.log('Data updated successfuly'); res.redirect('/'); }).catch(err => console.error(err));
+    });
+
+/* LISTE RESERVATION */
+
+    app.get('/liste', function(req, res){
+        Reservation.find().then((data) => { console.log(data); res.render('Reservations', {data: data}); }).catch(err => console.error(err));
     });
 
 /* SUPRIMER UTILISATEUR */
@@ -106,6 +113,6 @@
 
 /* LANCER SERVEUR */
 
-    var server = app.listen(5003, function () {
-        console.log("server listening on port 5003");
+    var server = app.listen(5004, function () {
+        console.log("server listening on port 5004");
     })

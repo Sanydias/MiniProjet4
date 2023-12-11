@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const reservationSchema = mongoose.Schema({
-    roomid : { type : 'string' },
     roomname : { type : 'string' },
-    statut : { type : 'boolean' }
+    roomsubname : { type : 'string' },
+    nombresiege : { type : 'string' }
 });
 
 module.exports = mongoose.model('Reservation', reservationSchema);

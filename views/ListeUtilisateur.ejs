@@ -24,7 +24,6 @@
         header{
             display: flex;
             flex-direction: row;
-            align-items: center;
             width: 100%;
             background-color: #000000;
         }
@@ -47,8 +46,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: fit-content;
-            width: fit-content;
+            width: 100%;
             margin: 10px;
         }
 
@@ -82,28 +80,39 @@
             margin: 20px 0;
         }
 
-        .delete {
-            background-color: #BF7C63;
-            width: fit-content;
-            padding-left: 6px;
-            margin: 0;
+        .edit {
+            background-color: #F2E3B3;
         }
 
+        .delete {
+            background-color: #BF7C63;
+        }
     </style>
 </head>
 <body>
     <header id="header">
         <a href="/">Home</a>
-        <a href="/liste">Liste des Salles</a>
-        <a href="/modifier/<%= data.id %>">Modifier le compte</a>
-        <form action="/supprimer/<%= data.id %>?_method=DELETE" method="post">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="submit" value="Supprimer le compte" class="delete">
-        </form>
+        <a href="/inscription">Inscription</a>
+        <a href="/connexion">Connexion</a>
     </header>
-    <h1>Compte de l'utilisateur <%= data.username %></h1>
-    <p>
-        Email : <%= data.email %>
-    </p>
+    <h1>Liste Utilisateur</h1>
+    <div id="main">
+        <% data.forEach((data) => { %>
+            <div class="bloc">
+                <h2>
+                    <%= data.roomname %>
+                </h2>
+                <div class="blocBouton">
+                    <a href="./modifier/<%= data.id  %>">
+                        <input type="button" value="Modifier" class="edit">
+                    </a>
+                    <form action="/supprimer/<%= data.id %>?_method=DELETE" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="submit" value="Supprimer" class="delete">
+                    </form>
+                </div>
+            </div>
+        <% }) %>
+    </div>
 </body>
 </html>

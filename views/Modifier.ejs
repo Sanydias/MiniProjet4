@@ -72,8 +72,8 @@
         <a href="/inscription">Inscription</a>
         <a href="/connexion">Connexion</a>
     </header>
-    <h1>Modifier l'utilisateur' <%= data.username %></h1>
-    <form action="/modifier/<%= data._id  %>?_method=PUT" method="post">
+    <h1>Modifier l'utilisateur <%= data.username %></h1>
+    <form action="/api/modifier/<%= data._id  %>?_method=PUT" method="post">
         <input type="hidden" name="_method" value="PUT">
 
         <label for="idUserName">Pseudo</label>
@@ -82,19 +82,7 @@
         <label for="idEmail">Email</label>
         <input type="email" name="email" id="idEmail" value="<%= data.email %>">
 
-        <label for="idPassword">Mot De Passe</label>
-        <input type="password" name="password" id="idPassword" value="<%= data.password %>">
-        <% if (data.admin) { %>
-            <label for="idAdmin">Admin</label>
-            <input type="checkbox" name="admin" id="idAdmin" value="true" <% if (data.admin) { 'checked' } %>>
-            <label for="idAdmin">Utilisateur Classique</label>
-            <input type="checkbox" name="admin" id="idAdmin" value="false"<% if (!data.admin) { 'checked' } %>>
-        <% } %>
         <input type="submit" value="Valider" class="edit">
-    </form>
-    <form action="/supprimer/<%= data._id %>?_method=DELETE" method="post">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type="submit" value="Supprimer" class="delete">
     </form>
 </body>
 </html>
