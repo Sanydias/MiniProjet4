@@ -173,12 +173,10 @@
     });
 
     app.post('/reservationresultat', function(req, res){
-        Reservation.find({ 
-            nombretable : req.body.nombretable,
-            nombresiegetable : req.body.nombresiegetable
+        Reservation.find({
         }).then((data) => { 
             console.log(data); 
-            res.render('ReservationResultat', {data: data}); 
+            res.render('ReservationResultat', {data: data, siege : req.body.nombresiege}); 
         }).catch(err => console.error(err));
     });
 

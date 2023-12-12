@@ -99,32 +99,37 @@
     <h1>Resultat Salle</h1>
     <div id="main">
         <% data.forEach((data) => { 
-            if (!data.statut) { %>
-            <div class="bloc">
-                <h2>
-                    <%= data.roomname %>
-                </h2>
-                <h3>
-                    <%= data.roomsubname %>
-                </h3>
-                <p>
-                    Nombre de tables : <%= data.nombretable %>
-                </p>
-                <p>
-                    Nombre de sièges : <%= data.nombresiege %>
-                </p>
-                <p>
-                    Nombre de sièges par table : <%= data.nombresiegetable %>
-                </p>
-                <div class="blocBouton">
-                    <form action="/api/reservation/<%= data._id %>?_method=PUT" method="post">
-                        <input type="hidden" name="_method" value="PUT">
+            if (data.nombresiege == siege) {
+                if (!data.statut) { 
+                    %>
+                    <div class="bloc">
+                        <h2>
+                            <%= data.roomname %>
+                        </h2>
+                        <h3>
+                            <%= data.roomsubname %>
+                        </h3>
+                        <p>
+                            Nombre de tables : <%= data.nombretable %>
+                        </p>
+                        <p>
+                            Nombre de sièges : <%= data.nombresiege %>
+                        </p>
+                        <p>
+                            Nombre de sièges par table : <%= data.nombresiegetable %>
+                        </p>
+                        <div class="blocBouton">
+                            <form action="/api/reservation/<%= data._id %>?_method=PUT" method="post">
+                                <input type="hidden" name="_method" value="PUT">
 
-                        <input type="submit" value="Réserver" class="edit">
-                    </form>
-                </div>
-            </div>
-        <% }}) %>
+                                <input type="submit" value="Réserver" class="edit">
+                            </form>
+                        </div>
+                    </div>
+                    <% 
+                }
+            }
+        }) %>
     </div>
 </body>
 </html>
