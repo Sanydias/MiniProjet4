@@ -94,16 +94,17 @@
 <body>
     <header id="header">
         <a href="/">Home</a>
-        <a href="/liste">Liste des Salles</a>
-        <a href="/modifier/<%= data.id %>">Modifier le compte</a>
-        <form action="/supprimer/<%= data.id %>?_method=DELETE" method="post">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="submit" value="Supprimer le compte" class="delete">
-        </form>
     </header>
-    <h1>Compte de l'utilisateur <%= data.username %></h1>
-    <p>
-        Email : <%= data.email %>
-    </p>
+    <h1>Recherche de Salle</h1>
+    <form action="/reservationresultat" method="post">
+
+        <label for="idNombreTable">Nombre de Tables</label>
+        <input type="number" name="nombretable" id="idNombreTable">
+
+        <label for="idNombreSiegeTable">Nombre de Sièges par Table</label>
+        <input type="number" name="nombresiegetable" id="idNombreSiegeTable">
+
+        <input type="submit" value="Valider" class="edit">
+    </form>
 </body>
 </html>

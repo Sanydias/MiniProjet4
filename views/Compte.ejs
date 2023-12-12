@@ -24,6 +24,7 @@
         header{
             display: flex;
             flex-direction: row;
+            align-items: center;
             width: 100%;
             background-color: #000000;
         }
@@ -46,7 +47,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100%;
+            height: fit-content;
+            width: fit-content;
             margin: 10px;
         }
 
@@ -82,37 +84,43 @@
 
         .edit {
             background-color: #F2E3B3;
+            width: 100px;
+            padding: 1px 6px;
+            height: 25px;
+            margin: 0;
         }
 
         .delete {
             background-color: #BF7C63;
+            width: fit-content;
+            padding-left: 6px;
+            margin: 0;
         }
+
     </style>
 </head>
 <body>
     <header id="header">
         <a href="/">Home</a>
-        <a href="/inscription">Inscription</a>
-        <a href="/connexion">Connexion</a>
+        <a href="/liste">Liste des Salles</a>
+        <a href="/modifier/<%= data._id %>">Modifier le compte</a>
+        <form action="/supprimersalle/<%= data._id %>?_method=DELETE" method="post">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="Supprimer le compte" class="delete">
+        </form>
     </header>
-    <h1>Liste Utilisateur</h1>
-    <div id="main">
-        <% data.forEach((data) => { %>
-            <div class="bloc">
-                <h2>
-                    <%= data.roomname %>
-                </h2>
-                <div class="blocBouton">
-                    <a href="./modifier/<%= data.id  %>">
-                        <input type="button" value="Modifier" class="edit">
-                    </a>
-                    <form action="/supprimer/<%= data.id %>?_method=DELETE" method="post">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="submit" value="Supprimer" class="delete">
-                    </form>
-                </div>
-            </div>
-        <% }) %>
-    </div>
+    <h1>Compte de l'utilisateur <%= data.username %></h1>
+    <h2>Informations</h2>
+    <p>
+       <%= data.email %>
+    </p>
+    <h2>Réservation</h2>
+    <a href="/listereservation/<%= data.username  %>">
+        <input type="button" value="Liste Réservé" class="edit">
+    </a>
+    <br>
+    <a href="/reservation">
+        <input type="button" value="Reserver" class="edit">
+    </a>
 </body>
 </html>

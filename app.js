@@ -8,7 +8,6 @@
     
     var bodyParser = require('body-parser');
 
-
 /* dotenv : cacher son url */
 
     require('dotenv').config();
@@ -61,7 +60,7 @@
             email : req.body.email,
             password : bcrypt.hashSync(req.body.password, 10)
         });
-        Data.save().then(() => { console.log('Data saved successfuly'); res.redirect('/'); }).catch(err => console.error(err));
+        Data.save().then(() => { console.log('Data saved successfuly'); res.redirect('/connexion'); }).catch(err => console.error(err));
     });
 
 /* CONNEXION */
@@ -81,7 +80,7 @@
             if (!bcrypt.compareSync(req.body.password, user.password)) {
                 return res.status(404).send('Invalid password');
             }
-            res.render('User', {data: user});
+            res.render('Compte', {data: user});
         }).catch(err => console.error(err));
     });
 
@@ -99,17 +98,143 @@
             User.updateOne({'_id': req.params.id}, {$set: Data}).then(() => { console.log('Data updated successfuly'); res.redirect('/'); }).catch(err => console.error(err));
     });
 
-/* LISTE RESERVATION */
-
-    app.get('/liste', function(req, res){
-        Reservation.find().then((data) => { console.log(data); res.render('Reservations', {data: data}); }).catch(err => console.error(err));
-    });
-
-/* SUPRIMER UTILISATEUR */
+/* SUPPRIMER UTILISATEUR */
 
     app.delete('/supprimer/:id', function (req, res) {
         User.findOneAndDelete({'_id': req.params.id}).then(() => { console.log('Data deleted successfuly'); res.redirect('/'); }).catch(err => console.error(err));
-    })
+    });
+
+/* LISTE SALLE */
+
+    app.get('/liste', function(req, res){
+        Reservation.find().then((data) => { console.log(data); res.render('ListeSalle', {data: data}); }).catch(err => console.error(err));
+    });
+
+/* AJOUT SALLE */
+
+    app.get('/ajoutsalle', function(req, res){
+        res.render('AjoutSalle');
+    });
+
+    app.post('/api/ajoutsalle', function(req, res){
+        spt = req.body.nombretable * req.body.nombresiegetable;
+        const Data = new Reservation({
+            roomname : req.body.roomname,
+            roomsubname : req.body.roomsubname,
+            nombretable : req.body.nombretable,
+            nombresiege : spt,
+            nombresiegetable : req.body.nombresiegetable,
+            statut : 'false',
+            id_reserveur : 'Aucun'
+        });
+        Data.save().then(() => { console.log('Data saved successfuly'); res.redirect('/liste'); }).catch(err => console.error(err));
+    });
+
+/* MODIFIER SALLE */
+
+    app.get('/modifiersalle/:id', function(req, res){
+        Reservation.findOne({ _id : req.params.id }).then((data) => { console.log(data); res.render('ModifierSalle', {data: data}); }).catch(err => console.error(err));
+    });
+
+    app.put('/api/modifiersalle/:id', function(req, res){
+        spt = req.body.nombretable * req.body.nombresiegetable;
+            const Data = {
+                roomname : req.body.roomname,
+                roomsubname : req.body.roomsubname,
+                nombretable : req.body.nombretable,
+                nombresiege : spt,
+                nombresiegetable : req.body.nombresiegetable,
+            }
+            Reservation.updateOne({'_id': req.params.id}, {$set: Data}).then(() => { console.log('Data updated successfuly'); res.redirect('/liste'); }).catch(err => console.error(err));
+    });
+
+/* SUPPRIMER SALLE */
+
+    app.delete('/supprimersalle/:id', function (req, res) {
+        Reservation.findOneAndDelete({'_id': req.params.id}).then(() => { console.log('Data deleted successfuly'); res.redirect('/liste'); }).catch(err => console.error(err));
+    });
+
+/* LISTE RESERVATION */
+    
+    app.get('/listereservation/:id', function(req, res){
+        console.log(req.params.id); 
+        Reservation.find({ 
+            'id_reserveur' : req.params.id 
+        }).then((data) => { 
+            console.log(data); 
+            res.render('ListeReservation', {data: data}); 
+        }).catch(err => console.error(err));
+    });
+
+/* RESERVATION */
+
+    app.get('/reservation', function(req, res){
+        res.render('Reservation');
+    });
+
+    app.post('/reservationresultat', function(req, res){
+        Reservation.find({ 
+            nombretable : req.body.nombretable,
+            nombresiegetable : req.body.nombresiegetable
+        }).then((data) => { 
+            console.log(data); 
+            res.render('ReservationResultat', {data: data}); 
+        }).catch(err => console.error(err));
+    });
+
+    app.put('/api/reservation/:id', function(req, res){
+            const Data = {
+                statut : 'true'
+            }
+            Reservation.updateOne({
+                '_id': req.params.id
+            }, {
+                $set: Data
+            }).then(() => { 
+                console.log('Data updated successfuly'); 
+                res.redirect('/reservationnom/'+ req.params.id); 
+            }).catch(err => console.error(err));
+    });
+
+    app.get('/reservationnom/:id', function(req, res){
+        Reservation.findOne({
+            '_id' : req.params.id
+        }).then(data => {
+            console.log(data);
+            res.render('ReservationNom', {data: data});
+        }).catch(err => console.error(err));
+    });
+
+    app.put('/api/reservationnom/:id', function(req, res){
+            const Data = {
+                id_reserveur : req.body.id_reserveur
+            }
+            Reservation.updateOne({
+                '_id': req.params.id
+            }, {
+                $set: Data
+            }).then(() => { 
+                console.log('Data updated successfuly'); 
+                res.redirect('/connexion'); 
+            }).catch(err => console.error(err));
+    });
+
+/* ANNULER RESERVATION */
+
+    app.put('/api/annulerreservation/:id', function(req, res){
+            const Data = {
+                statut : 'false',
+                id_reserveur : 'Aucun'
+            }
+            Reservation.updateOne({
+                '_id': req.params.id
+            }, {
+                $set: Data
+            }).then(() => { 
+                console.log('Data updated successfuly'); 
+                res.redirect('/connexion'); 
+            }).catch(err => console.error(err));
+    });
 
 /* LANCER SERVEUR */
 
