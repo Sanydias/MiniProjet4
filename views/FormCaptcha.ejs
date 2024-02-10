@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Captcha</title>
+</head>
+<body>
+    <img src="/Captcha" alt="captcha">
+    <form method="post" action="/verify">
+        <label for="textcaptcha">pas un robot ? prouvez le :</label>
+        <input type="text" name="textcaptcha" id="textcaptcha">
+        <input type="submit" value="envoyer">
+    </form>
+</body>
+</html>
